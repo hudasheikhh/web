@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML document</title>
+    <style>
+        #box {
+            width: 200px;
+            height: 120px;
+            border: 5px solid black;
+            border-radius: 15px;
+            padding: 10px;
+            margin: 10px;
+        }
+        
+        .lessonset {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
+            margin-top: 10%;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="lessonset">
+            <div id="box" v-for="cls in classes">
+                <p>Topic: {{ cls.topic }}</p>
+                <p>Location: {{ cls.location }}</p>
+                <p>Price: {{ cls.price }}</p>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var webstore = new Vue({
+            el: "#app",
+            data: {
+                classes: [],
+            },
+            created: function() {
+                console.log("Requesting data from server...");
+                fetch("http://localhost:3000/lessons").then((res) => {
+                    res.json().then((json) => {
+                        webstore.classes = json;
+                    });
+                });
+            },
+        });
+    </script>
+</body>
+
+</html>
